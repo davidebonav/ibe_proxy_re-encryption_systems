@@ -39,6 +39,10 @@ void bb_ibe_clear(bb_ibe_systems_t system, bb_ibe_params_t params, bb_ibe_mk_t m
 {
     pmesg(msg_very_verbose, "START bb_ibe_clear ...");
 
+    assert(system);
+    assert(params);
+    assert(mk);
+
     element_clear(mk->mk);
 
     element_clear(params->g);
@@ -55,8 +59,11 @@ void bb_ibe_system_setup(bb_ibe_params_t params, bb_ibe_mk_t mk, bb_ibe_systems_
 {
     pmesg(msg_very_verbose, "START bb_ibe_system_setup ...");
 
-    element_t a;
+    assert(params);
+    assert(mk);
+    assert(system);
 
+    element_t a;
     element_init_Zr(a, system->pairing);
     element_init_G1(params->g, system->pairing);
     element_init_G1(params->g1, system->pairing);
@@ -86,6 +93,12 @@ void bb_ibe_system_setup(bb_ibe_params_t params, bb_ibe_mk_t mk, bb_ibe_systems_
 void bb_ibe_system_keygen(bb_ibe_skID_t skID, bb_ibe_params_t params, bb_ibe_mk_t mk, bb_ibe_systems_t system, element_t ID)
 {
     pmesg(msg_very_verbose, "END bb_ibe_system_keygen ...");
+
+    assert(skID);
+    assert(params);
+    assert(mk);
+    assert(system);
+    assert(ID);
 
     element_t u;
 
