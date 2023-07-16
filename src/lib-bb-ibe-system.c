@@ -55,32 +55,28 @@ void bb_ibe_system_setup(bb_ibe_params_t params, bb_ibe_mk_t mk, bb_ibe_systems_
 {
     pmesg(msg_very_verbose, "START bb_ibe_system_setup ...");
 
-    element_init_G1(params->g2, system->pairing);
-    element_random(params->g2);
-    pmesg_element(msg_verbose, "", params->g2);
+    element_t a;
 
-    element_init_G1(params->h, system->pairing);
-    element_random(params->h);
-    pmesg_element(msg_verbose, "", params->h);
-    // element_printf("g = %B\n", params->g1);
-
+    element_init_Zr(a, system->pairing);
     element_init_G1(params->g, system->pairing);
-    pmesg(msg_normal, "TOFIXXXXXX");
+    element_init_G1(params->g1, system->pairing);
+    element_init_G1(params->g2, system->pairing);
+    element_init_G1(params->h, system->pairing);
+    element_init_G1(mk->mk, system->pairing);
+
+    element_random(a);
     while (!element_is_generator(params->g, system->pairing))
         element_random(params->g);
-    pmesg_element(msg_verbose, "", params->g);
-
-    element_t a;
-    element_init_Zr(a, system->pairing);
-    element_random(a);
-    pmesg_element(msg_verbose, "alpha = ", a);
-
-    element_init_G1(params->g1, system->pairing);
     element_pow_zn(params->g1, params->g, a);
-    pmesg_element(msg_verbose, "", params->g1);
-
-    element_init_G1(mk->mk, system->pairing);
+    element_random(params->g2);
+    element_random(params->h);
     element_pow_zn(mk->mk, params->g2, a);
+
+    pmesg_element(msg_verbose, "alpha = ", a);
+    pmesg_element(msg_verbose, "", params->g);
+    pmesg_element(msg_verbose, "", params->g1);
+    pmesg_element(msg_verbose, "", params->g2);
+    pmesg_element(msg_verbose, "", params->h);
     pmesg_element(msg_verbose, "", mk->mk);
 
     element_clear(a);
@@ -91,7 +87,25 @@ void bb_ibe_system_keygen(bb_ibe_skID_t skID, bb_ibe_params_t params, bb_ibe_mk_
 {
     pmesg(msg_very_verbose, "END bb_ibe_system_keygen ...");
 
-    // element_init_G1(skID
+    element_t u;
 
+    element_init_G1(skID->d0, system->pairing);
+    element_init_G1(skID->d1, system->pairing);
+    element_init_Zr(u, system->pairing);
+
+    element_random(u);
+
+    element_pow_zn(skID->d0, params->g1, ID);
+    element_pow_mpz(skID->d0, skID->d0, params->h);
+    element_pow_zn(skID->d0, skID->d0, u);
+    element_pow_mpz(skID->d0, skID->d0, mk->mk);
+
+    element_pow_zn(skID->d1, params->g, u);
+
+    pmesg_element(msg_verbose, "alpha = ", u);
+    pmesg_element(msg_verbose, "", skID->d0);
+    pmesg_element(msg_verbose, "", skID->d1);
+
+    element_clear(u);
     pmesg(msg_very_verbose, "END bb_ibe_system_keygen ...");
 }
