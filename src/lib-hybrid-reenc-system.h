@@ -8,10 +8,11 @@
 
 // includes
 #include <pbc/pbc.h>
-#include <gmp.h>
 
 #include <stdio.h>
 #include <assert.h>
+
+#include "lib-custom-types.h"
 
 #include "lib-misc.h"
 #include "lib-mesg.h"
@@ -22,22 +23,6 @@
 // structs
 typedef shared_params_ptr hybrid_reenc_params_ptr;
 typedef shared_params_t hybrid_reenc_params_t; // alias
-
-struct hybrid_reenc_eID_struct
-{
-    element_t eID;
-};
-typedef struct hybrid_reenc_eID_struct *hybrid_reenc_eID_ptr;
-typedef struct hybrid_reenc_eID_struct hybrid_reenc_eID_t[1];
-
-struct hybrid_reenc_rkID_struct
-{
-    element_t theta;
-    element_t g_u_b;
-    element_t delta;
-};
-typedef struct hybrid_reenc_rkID_struct *hybrid_reenc_rkID_ptr;
-typedef struct hybrid_reenc_rkID_struct hybrid_reenc_rkID_t[1];
 
 // functions
 void hybrid_reenc_clear(

@@ -67,10 +67,7 @@ void shared_params_setup(shared_params_t params, element_t a, pairing_t pairing)
 
     assert(params);
 
-    element_init_G1(params->g, pairing);
-    element_init_G1(params->g1, pairing);
-    element_init_G1(params->g2, pairing);
-    element_init_G1(params->h, pairing);
+    init_shared_params_t(params,pairing);
 
     element_random(params->g); // the order is prime, all the element are generator
     element_pow_zn(params->g1, params->g, a);

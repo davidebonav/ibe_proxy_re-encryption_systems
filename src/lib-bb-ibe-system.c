@@ -45,7 +45,7 @@ void bb_ibe_system_setup(
 
     shared_params_setup(params, a, pairing);
 
-    element_init_G1(mk->mk, pairing);
+    init_bb_ibe_mk_t(mk,pairing);
     element_pow_zn(mk->mk, params->g2, a);
     pmesg_element(msg_verbose, "", mk->mk);
 
@@ -70,8 +70,7 @@ void bb_ibe_system_keygen(
 
     element_t u;
 
-    element_init_G1(skID->d0, pairing);
-    element_init_G1(skID->d1, pairing);
+    init_bb_ibe_skID_t(skID,pairing);
     element_init_Zr(u, pairing);
 
     element_random(u);
@@ -108,9 +107,7 @@ void bb_ibe_system_encrypt(
     element_t r;
 
     element_init_Zr(r, pairing);
-    element_init_G1(C->c1, pairing);
-    element_init_G1(C->c2, pairing);
-    element_init_GT(C->c3, pairing);
+    init_bb_ibe_C_t(C,pairing);
 
     element_random(r);
     element_pow_zn(C->c1, params->g, r);

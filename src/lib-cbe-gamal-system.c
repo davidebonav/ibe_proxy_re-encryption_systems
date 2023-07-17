@@ -64,12 +64,8 @@ void cbe_gamal_system_keygen(
     assert(params);
     assert(pairing);
 
-    element_init_Zr(sk->theta, pairing);
-    element_init_Zr(sk->beta, pairing);
-    element_init_Zr(sk->delta, pairing);
-    element_init_G1(pk->g3, pairing);
-    element_init_G1(pk->g4, pairing);
-    element_init_G1(pk->g5, pairing);
+    init_cbe_gamal_pk_t(pk,pairing);
+    init_cbe_gamal_sk_t(sk,pairing);
 
     element_random(sk->theta);
     element_random(sk->beta);
@@ -105,10 +101,7 @@ void cbe_gamal_system_encrypt(
     element_t r;
 
     element_init_Zr(r, pairing);
-    element_init_G1(C->c1, pairing);
-    element_init_G1(C->c2, pairing);
-    element_init_G1(C->c3, pairing);
-    element_init_GT(C->c4, pairing);
+    init_cbe_gamal_C_t(C,pairing);
 
     element_random(r);
     element_pow_zn(C->c1, pk->g3, r);

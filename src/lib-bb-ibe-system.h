@@ -8,42 +8,20 @@
 
 // includes
 #include <pbc/pbc.h>
-#include <gmp.h>
 
 #include <stdio.h>
 #include <assert.h>
+
+#include "lib-custom-types.h"
 
 #include "lib-misc.h"
 #include "lib-mesg.h"
 #include "lib-shared.h"
 
-// structs
+
+// alias
 typedef shared_params_ptr bb_ibe_params_ptr;
-typedef shared_params_t bb_ibe_params_t; // alias
-
-struct bb_ibe_mk_struct
-{
-    element_t mk; // = g2^a
-};
-typedef struct bb_ibe_mk_struct *bb_ibe_mk_ptr;
-typedef struct bb_ibe_mk_struct bb_ibe_mk_t[1];
-
-struct bb_ibe_skID_struct
-{
-    element_t d0;
-    element_t d1;
-};
-typedef struct bb_ibe_skID_struct *bb_ibe_skID_ptr;
-typedef struct bb_ibe_skID_struct bb_ibe_skID_t[1];
-
-struct bb_ibe_C_struct
-{
-    element_t c1;
-    element_t c2;
-    element_t c3;
-};
-typedef struct bb_ibe_C_struct *bb_ibe_C_ptr;
-typedef struct bb_ibe_C_struct bb_ibe_C_t[1];
+typedef shared_params_t bb_ibe_params_t; 
 
 // functions
 void bb_ibe_clear(

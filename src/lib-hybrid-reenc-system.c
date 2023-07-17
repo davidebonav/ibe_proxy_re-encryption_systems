@@ -23,7 +23,7 @@ void hybrid_reenc_system_egen(
     pairing_t pairing)
 {
     pmesg(msg_very_verbose, "START hybrid_reenc_system_egen ...");
-    element_init_G1(eID->eID, pairing);
+    init_hybrid_reenc_eID_t(eID,pairing);
     element_set(eID->eID, skID->d1);
     pmesg_element(msg_verbose, "", eID->eID);
     pmesg(msg_very_verbose, "END hybrid_reenc_system_egen ...");
@@ -42,9 +42,7 @@ void hybrid_reenc_system_keygen_pro(
 
     element_init_Zr(tmp, pairing);
 
-    element_init_G1(rkID->theta, pairing);
-    element_init_G1(rkID->delta, pairing);
-    element_init_G1(rkID->g_u_b, pairing);
+    init_hybrid_reenc_rkID_t(rkID,pairing);
 
     element_set(rkID->theta, sk->theta);
     element_set(rkID->delta, sk->delta);
@@ -76,9 +74,7 @@ void hybrid_reenc_system_reenc(
     element_init_Zr(tmp, pairing);
     element_init_G1(tmp2, pairing);
 
-    element_init_G1(C_ID->c1, pairing);
-    element_init_G1(C_ID->c2, pairing);
-    element_init_GT(C_ID->c3, pairing);
+    init_bb_ibe_C_t(C_ID,pairing);
 
     element_invert(tmp, rkID->theta);
     element_pow_zn(C_ID->c1, C_PK->c1, tmp);
@@ -110,22 +106,22 @@ int hybrid_reenc_system_check(
     element_t v1, v2, v3, v4;
     int output;
 
-    element_init_GT(v1,pairing);
-    element_init_GT(v2,pairing);
-    element_init_GT(v3,pairing);
-    element_init_GT(v4,pairing);
+    element_init_GT(v1, pairing);
+    element_init_GT(v2, pairing);
+    element_init_GT(v3, pairing);
+    element_init_GT(v4, pairing);
 
-    element_pairing(v1,C_PK->c1, pk->g4);
-    element_pairing(v2,C_PK->c2, pk->g3);
-    element_pairing(v3,C_PK->c2, pk->g5);
-    element_pairing(v4,C_PK->c3, pk->g4);
+    element_pairing(v1, C_PK->c1, pk->g4);
+    element_pairing(v2, C_PK->c2, pk->g3);
+    element_pairing(v3, C_PK->c2, pk->g5);
+    element_pairing(v4, C_PK->c3, pk->g4);
 
     pmesg_element(msg_verbose, "", v1);
     pmesg_element(msg_verbose, "", v2);
     pmesg_element(msg_verbose, "", v3);
     pmesg_element(msg_verbose, "", v4);
 
-    output = !(element_cmp(v1,v2) & element_cmp(v3,v4));
+    output = !(element_cmp(v1, v2) & element_cmp(v3, v4));
 
     element_clear(v1);
     element_clear(v2);

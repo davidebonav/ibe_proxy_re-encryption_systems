@@ -8,10 +8,11 @@
 
 // includes
 #include <pbc/pbc.h>
-#include <gmp.h>
 
 #include <stdio.h>
 #include <assert.h>
+
+#include "lib-custom-types.h"
 
 #include "lib-misc.h"
 #include "lib-mesg.h"
@@ -20,35 +21,6 @@
 // structs
 typedef shared_params_ptr cbe_gamal_params_ptr;
 typedef shared_params_t cbe_gamal_params_t; // alias
-
-struct cbe_gamal_pk_struct
-{
-    element_t g3;
-    element_t g4;
-    element_t g5;
-};
-typedef struct cbe_gamal_pk_struct *cbe_gamal_pk_ptr;
-typedef struct cbe_gamal_pk_struct cbe_gamal_pk_t[1];
-
-struct cbe_gamal_sk_struct
-{
-    element_t theta;
-    element_t beta;
-    element_t delta;
-};
-typedef struct cbe_gamal_sk_struct *cbe_gamal_sk_ptr;
-typedef struct cbe_gamal_sk_struct cbe_gamal_sk_t[1];
-
-struct cbe_gamal_C_struct
-{
-    element_t c1;
-    element_t c2;
-    element_t c3;
-    element_t c4;
-};
-typedef struct cbe_gamal_C_struct *cbe_gamal_C_ptr;
-typedef struct cbe_gamal_C_struct cbe_gamal_C_t[1];
-
 
 // functions
 void cbe_gamal_clear(
