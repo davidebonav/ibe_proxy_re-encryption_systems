@@ -41,7 +41,7 @@ void bb_ibe_system_setup(
     element_t a;
     element_init_Zr(a, pairing);
     element_random(a);
-    pmesg_element(msg_verbose, "alpha = ", a);
+    pmesg_element(msg_verbose, "theta = ", a);
 
     shared_params_setup(params, a, pairing);
 
@@ -142,6 +142,8 @@ void bb_ibe_system_decrypt(
     pmesg(msg_very_verbose, "START bb_ibe_system_decrypt ...");
 
     element_t tmp1, tmp2;
+
+    element_init_GT(M, pairing);
 
     element_init_GT(tmp1, pairing);
     element_init_GT(tmp2, pairing);
