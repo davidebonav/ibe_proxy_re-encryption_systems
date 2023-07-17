@@ -1,124 +1,161 @@
 #include "lib-bb-ibe-system.h"
 
-void bb_ibe_init(
-    bb_ibe_systems_t bb_ibe_system,
-    pbc_pairing_type_t pairing_type,
-    unsigned int level)
-{
-    pmesg(msg_very_verbose, "START bb_ibe_init ...");
-
-    assert(is_pairing_symmetric(pairing_type));
-    assert(level);
-
-    pbc_param_t pairing_param;
-    if (pairing_type != pbc_pairing_type_a1)
-        select_pbc_param_by_security_level(pairing_param, pairing_type, level, NULL);
-    else
-    {
-        unsigned int mod_size =
-            non_generic_dlog_secure_size_by_security_level(level);
-        mpz_t p, q, n;
-        mpz_inits(p, q, n, NULL);
-        pbc_mpz_randomb(p, mod_size / (2 * 2));
-        pbc_mpz_randomb(q, mod_size / (2 * 2));
-        mpz_nextprime(p, p);
-        mpz_nextprime(q, q);
-        mpz_mul(n, p, q);
-        select_pbc_param_by_security_level(pairing_param, pairing_type, level, n);
-        mpz_clears(p, q, n, NULL);
-    }
-    pairing_init_pbc_param(bb_ibe_system->pairing, pairing_param);
-    pbc_param_clear(pairing_param);
-
-    assert(pairing_is_symmetric(bb_ibe_system->pairing));
-
-    pmesg(msg_very_verbose, "END bb_ibe_init ...");
-}
-
-void bb_ibe_clear(bb_ibe_systems_t system, bb_ibe_params_t params, bb_ibe_mk_t mk)
+void bb_ibe_clear(
+    bb_ibe_params_t params,
+    bb_ibe_mk_t mk,
+    bb_ibe_skID_t sk,
+    bb_ibe_C_t C)
 {
     pmesg(msg_very_verbose, "START bb_ibe_clear ...");
 
-    assert(system);
-    assert(params);
-    assert(mk);
+    shared_params_clear(params);
 
-    element_clear(mk->mk);
+    if (mk)
+        element_clear(mk->mk);
 
-    element_clear(params->g);
-    element_clear(params->g1);
-    element_clear(params->g2);
-    element_clear(params->h);
+    if (sk)
+    {
+        element_clear(sk->d0);
+        element_clear(sk->d1);
+    }
 
-    pairing_clear(system->pairing);
+    if (C)
+    {
+        element_clear(C->c1);
+        element_clear(C->c2);
+        element_clear(C->c3);
+    }
 
     pmesg(msg_very_verbose, "END bb_ibe_clear ...");
 }
 
-void bb_ibe_system_setup(bb_ibe_params_t params, bb_ibe_mk_t mk, bb_ibe_systems_t system)
+void bb_ibe_system_setup(
+    bb_ibe_params_t params,
+    bb_ibe_mk_t mk,
+    pairing_t pairing)
 {
     pmesg(msg_very_verbose, "START bb_ibe_system_setup ...");
 
-    assert(params);
     assert(mk);
-    assert(system);
 
     element_t a;
-    element_init_Zr(a, system->pairing);
-    element_init_G1(params->g, system->pairing);
-    element_init_G1(params->g1, system->pairing);
-    element_init_G1(params->g2, system->pairing);
-    element_init_G1(params->h, system->pairing);
-    element_init_G1(mk->mk, system->pairing);
-
+    element_init_Zr(a, pairing);
     element_random(a);
-    while (!element_is_generator(params->g, system->pairing))
-        element_random(params->g);
-    element_pow_zn(params->g1, params->g, a);
-    element_random(params->g2);
-    element_random(params->h);
-    element_pow_zn(mk->mk, params->g2, a);
-
     pmesg_element(msg_verbose, "alpha = ", a);
-    pmesg_element(msg_verbose, "", params->g);
-    pmesg_element(msg_verbose, "", params->g1);
-    pmesg_element(msg_verbose, "", params->g2);
-    pmesg_element(msg_verbose, "", params->h);
+
+    shared_params_setup(params, a, pairing);
+
+    element_init_G1(mk->mk, pairing);
+    element_pow_zn(mk->mk, params->g2, a);
     pmesg_element(msg_verbose, "", mk->mk);
 
     element_clear(a);
     pmesg(msg_very_verbose, "END bb_ibe_system_setup ...");
 }
 
-void bb_ibe_system_keygen(bb_ibe_skID_t skID, bb_ibe_params_t params, bb_ibe_mk_t mk, bb_ibe_systems_t system, element_t ID)
+void bb_ibe_system_keygen(
+    bb_ibe_skID_t skID,
+    bb_ibe_params_t params,
+    bb_ibe_mk_t mk,
+    element_t ID,
+    pairing_t pairing)
 {
     pmesg(msg_very_verbose, "END bb_ibe_system_keygen ...");
 
     assert(skID);
     assert(params);
     assert(mk);
-    assert(system);
+    assert(pairing);
     assert(ID);
 
     element_t u;
 
-    element_init_G1(skID->d0, system->pairing);
-    element_init_G1(skID->d1, system->pairing);
-    element_init_Zr(u, system->pairing);
+    element_init_G1(skID->d0, pairing);
+    element_init_G1(skID->d1, pairing);
+    element_init_Zr(u, pairing);
 
     element_random(u);
 
     element_pow_zn(skID->d0, params->g1, ID);
-    element_pow_mpz(skID->d0, skID->d0, params->h);
+    element_mul(skID->d0, skID->d0, params->h);
     element_pow_zn(skID->d0, skID->d0, u);
-    element_pow_mpz(skID->d0, skID->d0, mk->mk);
+    element_mul(skID->d0, skID->d0, mk->mk);
 
     element_pow_zn(skID->d1, params->g, u);
 
-    pmesg_element(msg_verbose, "alpha = ", u);
+    pmesg_element(msg_verbose, "u = ", u);
     pmesg_element(msg_verbose, "", skID->d0);
     pmesg_element(msg_verbose, "", skID->d1);
 
     element_clear(u);
     pmesg(msg_very_verbose, "END bb_ibe_system_keygen ...");
+}
+
+void bb_ibe_system_encrypt(
+    bb_ibe_C_t C,
+    element_t ID,
+    bb_ibe_params_t params,
+    element_t M,
+    pairing_t pairing)
+{
+    pmesg(msg_very_verbose, "START bb_ibe_system_encrypt ...");
+
+    assert(C);
+    assert(ID);
+    assert(params);
+    assert(M);
+
+    element_t r;
+
+    element_init_Zr(r, pairing);
+    element_init_G1(C->c1, pairing);
+    element_init_G1(C->c2, pairing);
+    element_init_GT(C->c3, pairing);
+
+    element_random(r);
+    element_pow_zn(C->c1, params->g, r);
+
+    element_pow_zn(C->c2, params->g1, ID);
+    element_mul(C->c2, C->c2, params->h);
+    element_pow_zn(C->c2, C->c2, r);
+
+    element_pairing(C->c3, params->g1, params->g2);
+    element_pow_zn(C->c3, C->c3, r);
+    element_mul(C->c3, C->c3, M);
+
+    pmesg_element(msg_verbose, "r = ", r);
+    pmesg_element(msg_verbose, "", C->c1);
+    pmesg_element(msg_verbose, "", C->c2);
+    pmesg_element(msg_verbose, "", C->c3);
+
+    element_clear(r);
+    pmesg(msg_very_verbose, "END bb_ibe_system_encrypt ...");
+}
+
+void bb_ibe_system_decrypt(
+    element_t M,
+    bb_ibe_skID_t sk,
+    bb_ibe_C_t C,
+    bb_ibe_params_t params,
+    pairing_t pairing)
+{
+    pmesg(msg_very_verbose, "START bb_ibe_system_decrypt ...");
+
+    element_t tmp1, tmp2;
+
+    element_init_GT(tmp1, pairing);
+    element_init_GT(tmp2, pairing);
+
+    element_pairing(tmp1, sk->d1, C->c2);
+    element_mul(tmp1, tmp1, C->c3);
+    element_pairing(tmp2, sk->d0, C->c1);
+
+    element_div(M, tmp1, tmp2);
+
+    element_clear(tmp1);
+    element_clear(tmp2);
+
+    pmesg_element(msg_verbose, "", M);
+
+    pmesg(msg_very_verbose, "END bb_ibe_system_decrypt ...");
 }
