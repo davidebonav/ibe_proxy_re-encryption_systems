@@ -5,15 +5,8 @@ void hybrid_reenc_clear(
     hybrid_reenc_rkID_t rkID)
 {
     pmesg(msg_very_verbose, "START hybrid_reenc_clear ...");
-    if (eID)
-        element_clear(eID->eID);
-
-    if (rkID)
-    {
-        element_clear(rkID->delta);
-        element_clear(rkID->g_u_b);
-        element_clear(rkID->theta);
-    }
+    clear_hybrid_reenc_eID_t(eID);
+    clear_hybrid_reenc_rkID_t(rkID);
     pmesg(msg_very_verbose, "END hybrid_reenc_clear ...");
 }
 

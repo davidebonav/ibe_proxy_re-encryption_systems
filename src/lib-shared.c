@@ -49,15 +49,7 @@ void shared_pairing_init(
 void shared_params_clear(shared_params_t params)
 {
     pmesg(msg_very_verbose, "START shared_params_clear ...");
-
-    if (params)
-    {
-        element_clear(params->g);
-        element_clear(params->g1);
-        element_clear(params->g2);
-        element_clear(params->h);
-    }
-
+    clear_shared_params_t(params);
     pmesg(msg_very_verbose, "END shared_params_clear ...");
 }
 
@@ -67,7 +59,7 @@ void shared_params_setup(shared_params_t params, element_t a, pairing_t pairing)
 
     assert(params);
 
-    init_shared_params_t(params,pairing);
+    init_shared_params_t(params, pairing);
 
     element_random(params->g); // the order is prime, all the element are generator
     element_pow_zn(params->g1, params->g, a);

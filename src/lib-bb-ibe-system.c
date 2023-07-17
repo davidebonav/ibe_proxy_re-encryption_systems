@@ -9,22 +9,9 @@ void bb_ibe_clear(
     pmesg(msg_very_verbose, "START bb_ibe_clear ...");
 
     shared_params_clear(params);
-
-    if (mk)
-        element_clear(mk->mk);
-
-    if (sk)
-    {
-        element_clear(sk->d0);
-        element_clear(sk->d1);
-    }
-
-    if (C)
-    {
-        element_clear(C->c1);
-        element_clear(C->c2);
-        element_clear(C->c3);
-    }
+    clear_bb_ibe_mk_t(mk);
+    clear_bb_ibe_skID_t(sk);
+    clear_bb_ibe_C_t(C);
 
     pmesg(msg_very_verbose, "END bb_ibe_clear ...");
 }

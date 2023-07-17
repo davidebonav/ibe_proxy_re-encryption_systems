@@ -16,6 +16,7 @@ typedef struct shared_params_struct *shared_params_ptr;
 typedef struct shared_params_struct shared_params_t[1];
 
 void init_shared_params_t(shared_params_t params, pairing_t pairing);
+void clear_shared_params_t(shared_params_t params);
 
 // BB-IBE
 struct bb_ibe_mk_struct
@@ -45,6 +46,9 @@ typedef struct bb_ibe_C_struct bb_ibe_C_t[1];
 void init_bb_ibe_mk_t(bb_ibe_mk_t mk, pairing_t pairing);
 void init_bb_ibe_skID_t(bb_ibe_skID_t skID, pairing_t pairing);
 void init_bb_ibe_C_t(bb_ibe_C_t C, pairing_t pairing);
+void clear_bb_ibe_mk_t(bb_ibe_mk_t mk);
+void clear_bb_ibe_skID_t(bb_ibe_skID_t skID);
+void clear_bb_ibe_C_t(bb_ibe_C_t C);
 
 // CBE-GAMAL
 struct cbe_gamal_pk_struct
@@ -78,6 +82,9 @@ typedef struct cbe_gamal_C_struct cbe_gamal_C_t[1];
 void init_cbe_gamal_pk_t(cbe_gamal_pk_t pk, pairing_t pairing);
 void init_cbe_gamal_sk_t(cbe_gamal_sk_t sk, pairing_t pairing);
 void init_cbe_gamal_C_t(cbe_gamal_C_t C, pairing_t pairing);
+void clear_cbe_gamal_pk_t(cbe_gamal_pk_t pk);
+void clear_cbe_gamal_sk_t(cbe_gamal_sk_t sk);
+void clear_cbe_gamal_C_t(cbe_gamal_C_t C);
 
 // HYBRID-PROXY
 struct hybrid_reenc_eID_struct
@@ -98,5 +105,6 @@ typedef struct hybrid_reenc_rkID_struct hybrid_reenc_rkID_t[1];
 
 void init_hybrid_reenc_eID_t(hybrid_reenc_eID_t eID, pairing_t pairing);
 void init_hybrid_reenc_rkID_t(hybrid_reenc_rkID_t rkID, pairing_t pairing);
-
+void clear_hybrid_reenc_eID_t(hybrid_reenc_eID_t eID);
+void clear_hybrid_reenc_rkID_t(hybrid_reenc_rkID_t rkID);
 #endif // CUSTOM_TYPES_H

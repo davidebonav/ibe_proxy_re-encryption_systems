@@ -9,28 +9,9 @@ void cbe_gamal_clear(
     pmesg(msg_very_verbose, "START cbe_gamal_clear ...");
 
     shared_params_clear(params);
-
-    if (pk)
-    {
-        element_clear(pk->g3);
-        element_clear(pk->g4);
-        element_clear(pk->g5);
-    }
-
-    if (sk)
-    {
-        element_clear(sk->theta);
-        element_clear(sk->beta);
-        element_clear(sk->delta);
-    }
-
-    if (C)
-    {
-        element_clear(C->c1);
-        element_clear(C->c2);
-        element_clear(C->c3);
-        element_clear(C->c4);
-    }
+    clear_cbe_gamal_pk_t(pk);
+    clear_cbe_gamal_sk_t(sk);
+    clear_cbe_gamal_C_t(C);
 
     pmesg(msg_very_verbose, "END cbe_gamal_clear ...");
 }
