@@ -8,6 +8,10 @@
 #include <pbc/pbc.h>
 #include <assert.h>
 
+typedef struct {
+    bool precompute_parameters;
+} options;
+
 int shared_pairing_is_symmetric(pbc_pairing_type_t type);
 void shared_pairing_init(
     pairing_t pairing,

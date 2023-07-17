@@ -13,6 +13,8 @@ int main()
 
     pairing_t pairing;
 
+    options optn = {true};
+
     cbe_gamal_params_t params;
     cbe_gamal_pk_t pk;
     cbe_gamal_sk_t sk;
@@ -26,7 +28,7 @@ int main()
     element_random(M);
     pmesg_element(msg_verbose, "", M);
 
-    cbe_gamal_system_setup(params, pairing);
+    cbe_gamal_system_setup(params, pairing, optn);
     cbe_gamal_system_keygen(sk, pk, params, pairing);
     cbe_gamal_system_encrypt(C, pk, params, M, pairing);
     cbe_gamal_system_decrypt(M1, sk, params, C, pairing);

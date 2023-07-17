@@ -19,7 +19,8 @@ void bb_ibe_clear(
 void bb_ibe_system_setup(
     bb_ibe_params_t params,
     bb_ibe_mk_t mk,
-    pairing_t pairing)
+    pairing_t pairing,
+    options optn)
 {
     pmesg(msg_very_verbose, "START bb_ibe_system_setup ...");
 
@@ -30,9 +31,10 @@ void bb_ibe_system_setup(
     element_random(a);
     pmesg_element(msg_verbose, "theta = ", a);
 
-    shared_params_setup(params, a, pairing);
+    if (optn.precompute_parameters)
+        shared_params_setup(params, a, pairing);
 
-    init_bb_ibe_mk_t(mk,pairing);
+    init_bb_ibe_mk_t(mk, pairing);
     element_pow_zn(mk->mk, params->g2, a);
     pmesg_element(msg_verbose, "", mk->mk);
 
@@ -57,7 +59,7 @@ void bb_ibe_system_keygen(
 
     element_t u;
 
-    init_bb_ibe_skID_t(skID,pairing);
+    init_bb_ibe_skID_t(skID, pairing);
     element_init_Zr(u, pairing);
 
     element_random(u);
@@ -94,7 +96,7 @@ void bb_ibe_system_encrypt(
     element_t r;
 
     element_init_Zr(r, pairing);
-    init_bb_ibe_C_t(C,pairing);
+    init_bb_ibe_C_t(C, pairing);
 
     element_random(r);
     element_pow_zn(C->c1, params->g, r);

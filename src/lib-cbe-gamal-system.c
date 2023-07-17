@@ -18,7 +18,8 @@ void cbe_gamal_clear(
 
 void cbe_gamal_system_setup(
     cbe_gamal_params_t params,
-    pairing_t pairing)
+    pairing_t pairing,
+    options optn)
 {
     pmesg(msg_very_verbose, "START cbe_gamal_system_setup ...");
 
@@ -27,7 +28,8 @@ void cbe_gamal_system_setup(
     element_random(a);
     pmesg_element(msg_verbose, "alpha = ", a);
 
-    shared_params_setup(params, a, pairing);
+    if (optn.precompute_parameters)
+        shared_params_setup(params, a, pairing);
 
     pmesg(msg_very_verbose, "END cbe_gamal_system_setup ...");
 }
@@ -45,8 +47,8 @@ void cbe_gamal_system_keygen(
     assert(params);
     assert(pairing);
 
-    init_cbe_gamal_pk_t(pk,pairing);
-    init_cbe_gamal_sk_t(sk,pairing);
+    init_cbe_gamal_pk_t(pk, pairing);
+    init_cbe_gamal_sk_t(sk, pairing);
 
     element_random(sk->theta);
     element_random(sk->beta);
@@ -82,7 +84,7 @@ void cbe_gamal_system_encrypt(
     element_t r;
 
     element_init_Zr(r, pairing);
-    init_cbe_gamal_C_t(C,pairing);
+    init_cbe_gamal_C_t(C, pairing);
 
     element_random(r);
     element_pow_zn(C->c1, pk->g3, r);

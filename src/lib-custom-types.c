@@ -120,8 +120,8 @@ void clear_hybrid_reenc_eID_t(hybrid_reenc_eID_t eID)
 
 void init_hybrid_reenc_rkID_t(hybrid_reenc_rkID_t rkID, pairing_t pairing)
 {
-    element_init_G1(rkID->theta, pairing);
-    element_init_G1(rkID->delta, pairing);
+    element_init_Zr(rkID->theta, pairing);
+    element_init_Zr(rkID->delta, pairing);
     element_init_G1(rkID->g_u_b, pairing);
 }
 void clear_hybrid_reenc_rkID_t(hybrid_reenc_rkID_t rkID)

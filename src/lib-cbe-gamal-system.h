@@ -31,7 +31,8 @@ void cbe_gamal_clear(
 
 void cbe_gamal_system_setup(
     cbe_gamal_params_t params,
-    pairing_t pairing);
+    pairing_t pairing,
+    options optn);
 
 void cbe_gamal_system_keygen(
     cbe_gamal_sk_t sk,
