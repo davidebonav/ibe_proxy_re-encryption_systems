@@ -15,7 +15,6 @@ int main()
     hybrid_reenc_params_t params;
 
     element_t M;
-    options optn;
 
     shared_pairing_init(pairing, pbc_pairing_type_a, 90);
 
@@ -33,8 +32,8 @@ int main()
     element_random(ID);
     pmesg_element(msg_normal, "Identità IBE", ID);
 
-    optn.precompute_parameters = true;
-    bb_ibe_system_setup(params, mkID, pairing, optn);
+    compute_parameters = true;
+    bb_ibe_system_setup(params, mkID, pairing);
     bb_ibe_system_keygen(skID, params, mkID, ID, pairing);
 
     // ****************************** TEST BB-IBE
@@ -59,8 +58,8 @@ int main()
     cbe_gamal_sk_t sk;
     cbe_gamal_C_t C;
 
-    optn.precompute_parameters = false;
-    cbe_gamal_system_setup(params, pairing, optn);
+    compute_parameters = false;
+    cbe_gamal_system_setup(params, pairing);
     cbe_gamal_system_keygen(sk, pk, params, pairing);
 
     // ****************************** TEST CBE-EL-GAMAL

@@ -18,8 +18,7 @@ void cbe_gamal_clear(
 
 void cbe_gamal_system_setup(
     cbe_gamal_params_t params,
-    pairing_t pairing,
-    options optn)
+    pairing_t pairing)
 {
     pmesg(msg_verbose, "START cbe_gamal_system_setup ...");
 
@@ -28,7 +27,7 @@ void cbe_gamal_system_setup(
     element_random(a);
     pmesg_element(msg_verbose, "alpha = ", a);
 
-    if (optn.precompute_parameters)
+    if (compute_parameters)
         shared_params_setup(params, a, pairing);
 
     pmesg(msg_verbose, "END cbe_gamal_system_setup ...");

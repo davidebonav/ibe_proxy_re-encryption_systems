@@ -33,8 +33,7 @@ void bb_ibe_clear(
 void bb_ibe_system_setup(
     bb_ibe_params_t params,
     bb_ibe_mk_t mk,
-    pairing_t pairing,
-    options optn);
+    pairing_t pairing);
 
 void bb_ibe_system_keygen(
     bb_ibe_skID_t skID,

@@ -13,7 +13,7 @@ int main()
 
     pairing_t pairing;
 
-    options optn = {true};
+    compute_parameters = true;
 
     bb_ibe_params_t params;
     bb_ibe_mk_t mk;
@@ -32,7 +32,7 @@ int main()
     pmesg_element(msg_normal, "", ID);
     pmesg_element(msg_normal, "", M);
 
-    bb_ibe_system_setup(params, mk, pairing, optn);
+    bb_ibe_system_setup(params, mk, pairing);
     bb_ibe_system_keygen(sk, params, mk, ID, pairing);
     bb_ibe_system_encrypt(C, ID, params, M, pairing);
     bb_ibe_system_decrypt(M1, sk, C, params, pairing);

@@ -19,8 +19,7 @@ void bb_ibe_clear(
 void bb_ibe_system_setup(
     bb_ibe_params_t params,
     bb_ibe_mk_t mk,
-    pairing_t pairing,
-    options optn)
+    pairing_t pairing)
 {
     pmesg(msg_verbose, "START bb_ibe_system_setup ...");
 
@@ -31,7 +30,7 @@ void bb_ibe_system_setup(
     element_random(a);
     pmesg_element(msg_verbose, "theta = ", a);
 
-    if (optn.precompute_parameters)
+    if (compute_parameters)
         shared_params_setup(params, a, pairing);
 
     init_bb_ibe_mk_t(mk, pairing);

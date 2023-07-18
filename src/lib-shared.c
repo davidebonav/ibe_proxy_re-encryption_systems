@@ -1,5 +1,9 @@
 #include "lib-shared.h"
 
+// defaultvalues
+bool compute_parameters = true;
+bool precomputation = false;
+
 int shared_pairing_is_symmetric(pbc_pairing_type_t type)
 {
     pmesg(msg_verbose, "START shared_pairing_is_symmetric ...");
