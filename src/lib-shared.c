@@ -19,7 +19,6 @@ void shared_pairing_init(
     pmesg(msg_verbose, "START shared_pairing_init ...");
 
     assert(shared_pairing_is_symmetric(pairing_type));
-    assert(level);
 
     pbc_param_t pairing_param;
     if (pairing_type != pbc_pairing_type_a1)
@@ -56,8 +55,6 @@ void shared_params_clear(shared_params_t params)
 void shared_params_setup(shared_params_t params, element_t a, pairing_t pairing)
 {
     pmesg(msg_verbose, "START shared_params_setup ...");
-
-    assert(params);
 
     init_shared_params_t(params, pairing);
 
@@ -109,7 +106,7 @@ int isNumeric(const char *str)
     return 1;
 }
 
-void parse_input(int argn,  char *args[])
+void parse_input(int argn, char *args[])
 {
     if (argn < 2)
     {
@@ -164,8 +161,7 @@ void parse_input(int argn,  char *args[])
         }
     }
 
-        printf("Running test: \n- sec-levle %d, \n- pairing %d, \n- precomputation pow %d, "
+    printf("Running test: \n- sec-levle %d, \n- pairing %d, \n- precomputation pow %d, "
            "\n- precomputation pairing %d\n",
            sec_level, type, precomputation, pairing_pp);
-
 }

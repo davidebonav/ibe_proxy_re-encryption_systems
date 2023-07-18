@@ -1,13 +1,14 @@
 #ifndef SHARED
 #define SHARED
 
+#include<stdio.h>
+#include <pbc/pbc.h>
+#include <ctype.h>
+#include<assert.h>
+
 #include"lib-custom-types.h"
 #include "lib-misc.h"
 #include "lib-mesg.h"
-
-#include <pbc/pbc.h>
-#include <assert.h>
-#include <ctype.h>
 
 int shared_pairing_is_symmetric(pbc_pairing_type_t type);
 void shared_pairing_init(

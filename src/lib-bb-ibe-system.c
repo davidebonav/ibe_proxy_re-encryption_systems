@@ -23,8 +23,6 @@ void bb_ibe_system_setup(
 {
     pmesg(msg_verbose, "START bb_ibe_system_setup ...");
 
-    assert(mk);
-
     element_t a;
     element_init_Zr(a, pairing);
     element_random(a);
@@ -52,12 +50,6 @@ void bb_ibe_system_keygen(
     pairing_t pairing)
 {
     pmesg(msg_verbose, "END bb_ibe_system_keygen ...");
-
-    assert(skID);
-    assert(params);
-    assert(mk);
-    assert(pairing);
-    assert(ID);
 
     element_t u;
 
@@ -103,11 +95,6 @@ void bb_ibe_system_encrypt(
     pairing_t pairing)
 {
     pmesg(msg_verbose, "START bb_ibe_system_encrypt ...");
-
-    assert(C);
-    assert(ID);
-    assert(params);
-    assert(M);
 
     element_t r;
 

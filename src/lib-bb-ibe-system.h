@@ -7,21 +7,17 @@
 */
 
 // includes
-#include <pbc/pbc.h>
-
 #include <stdio.h>
-#include <assert.h>
-
-#include "lib-custom-types.h"
+#include <pbc/pbc.h>
 
 #include "lib-misc.h"
 #include "lib-mesg.h"
 #include "lib-shared.h"
-
+#include "lib-custom-types.h"
 
 // alias
 typedef shared_params_ptr bb_ibe_params_ptr;
-typedef shared_params_t bb_ibe_params_t; 
+typedef shared_params_t bb_ibe_params_t;
 
 // functions
 void bb_ibe_clear(

@@ -7,16 +7,13 @@
 */
 
 // includes
-#include <pbc/pbc.h>
-
 #include <stdio.h>
-#include <assert.h>
-
-#include "lib-custom-types.h"
+#include <pbc/pbc.h>
 
 #include "lib-misc.h"
 #include "lib-mesg.h"
 #include "lib-shared.h"
+#include "lib-custom-types.h"
 
 // structs
 typedef shared_params_ptr cbe_gamal_params_ptr;

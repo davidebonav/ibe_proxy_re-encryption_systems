@@ -41,11 +41,6 @@ void cbe_gamal_system_keygen(
 {
     pmesg(msg_verbose, "END cbe_gamal_system_keygen ...");
 
-    assert(sk);
-    assert(pk);
-    assert(params);
-    assert(pairing);
-
     init_cbe_gamal_pk_t(pk, pairing);
     init_cbe_gamal_sk_t(sk, pairing);
 
@@ -70,7 +65,8 @@ void cbe_gamal_system_keygen(
         element_pow_zn(pk->g5, params->h, sk->delta);
     }
 
-    if(pairing_pp){
+    if (pairing_pp)
+    {
         pairing_pp_init(pk->pairing_pp_g3, pk->g3, pairing);
         pairing_pp_init(pk->pairing_pp_g4, pk->g4, pairing);
         pairing_pp_init(pk->pairing_pp_g5, pk->g5, pairing);
@@ -94,11 +90,6 @@ void cbe_gamal_system_encrypt(
     pairing_t pairing)
 {
     pmesg(msg_verbose, "START cbe_gamal_system_encrypt ...");
-
-    assert(C);
-    assert(pk);
-    assert(params);
-    assert(M);
 
     element_t r;
 
@@ -125,9 +116,9 @@ void cbe_gamal_system_encrypt(
 
     if (pairing_pp)
     {
-        pairing_pp_init(C->pairing_pp_c1,C->c1, pairing);
-        pairing_pp_init(C->pairing_pp_c2,C->c2, pairing);
-        pairing_pp_init(C->pairing_pp_c3,C->c3, pairing);
+        pairing_pp_init(C->pairing_pp_c1, C->c1, pairing);
+        pairing_pp_init(C->pairing_pp_c2, C->c2, pairing);
+        pairing_pp_init(C->pairing_pp_c3, C->c3, pairing);
 
         pairing_pp_apply(C->c4, params->g1, params->pairing_pp_g2);
     }

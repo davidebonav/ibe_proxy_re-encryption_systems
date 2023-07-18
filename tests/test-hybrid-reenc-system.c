@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 
 #include "lib-mesg.h"
 #include "lib-shared.h"
@@ -71,7 +72,7 @@ int main(int argc, char *argv[])
     perform_wc_time_sampling_period(
         stats, sampling_period, max_samples, tu_millis,
         {
-            hybrid_reenc_system_check(params, C, pk, pairing);
+            assert(hybrid_reenc_system_check(params, C, pk, pairing) == 1);
         },
         {});
     printf_stats(" hybrid_reenc_system_check: ", stats, "");
