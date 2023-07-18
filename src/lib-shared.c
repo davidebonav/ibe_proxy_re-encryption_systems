@@ -79,10 +79,93 @@ void shared_params_setup(shared_params_t params, element_t a, pairing_t pairing)
         element_pp_init(params->pp_h, params->h);
     }
 
+    if (pairing_pp)
+        pairing_pp_init(params->pairing_pp_g2, params->g2, pairing);
+
     pmesg_element(msg_verbose, "", params->g);
     pmesg_element(msg_verbose, "", params->g1);
     pmesg_element(msg_verbose, "", params->g2);
     pmesg_element(msg_verbose, "", params->h);
 
     pmesg(msg_verbose, "END shared_params_setup ...");
+}
+
+int isNumeric(const char *str)
+{
+    if (str == NULL || *str == '\0')
+        return 0;
+
+    int i = 0;
+    if (str[i] == '-' || str[i] == '+')
+        i++; // Skip sign if present
+
+    while (str[i] != '\0')
+    {
+        if (!isdigit(str[i]))
+            return 0;
+        i++;
+    }
+
+    return 1;
+}
+
+void parse_input(int argn,  char *args[])
+{
+    if (argn < 2)
+    {
+        printf("usage: %s [sec-level <n>] [pairing-pp t|f] [pow-pp t|f] "
+               "[type-a|type-a1|type-e]\n",
+               args[0]);
+        exit(1);
+    }
+
+    for (int i = 1; i < argn; i++)
+    {
+        if (strcmp(args[i], "sec-level") == 0)
+        {
+            if (i + 1 >= argn || !isNumeric(args[i + 1]))
+            {
+                printf("argomento mancante o non numerico in sec-level!\n");
+                exit(1);
+            }
+            sec_level = atoi(args[i + 1]);
+            i++;
+        }
+        else if (strcmp(args[i], "pairing-pp") == 0)
+        {
+            if (i + 1 >= argn || strlen(args[i + 1]) > 1 || (args[i + 1][0] != 't' && args[i + 1][0] != 'f'))
+            {
+                printf("argomento mancante o non valido in pairing-pp!\n");
+                exit(1);
+            }
+            precomputation = args[i + 1][0] == 't';
+            i++;
+        }
+        else if (strcmp(args[i], "pow-pp") == 0)
+        {
+            if (i + 1 >= argn || strlen(args[i + 1]) > 1 || (args[i + 1][0] != 't' && args[i + 1][0] != 'f'))
+            {
+                printf("argomento mancante o non valido in pow-pp!\n");
+                exit(1);
+            }
+            pairing_pp = args[i + 1][0] == 't';
+            i++;
+        }
+        else if (strcmp(args[i], "type-a") == 0)
+            type = pbc_pairing_type_a;
+        else if (strcmp(args[i], "type-a1") == 0)
+            type = pbc_pairing_type_a1;
+        else if (strcmp(args[i], "type-e") == 0)
+            type = pbc_pairing_type_e;
+        else
+        {
+            printf("Parametro %s non riconosciuto...\n", args[i]);
+            exit(1);
+        }
+    }
+
+        printf("Running test: \n- sec-levle %d, \n- pairing %d, \n- precomputation pow %d, "
+           "\n- precomputation pairing %d\n",
+           sec_level, type, precomputation, pairing_pp);
+
 }

@@ -7,6 +7,7 @@
 
 #include <pbc/pbc.h>
 #include <assert.h>
+#include <ctype.h>
 
 int shared_pairing_is_symmetric(pbc_pairing_type_t type);
 void shared_pairing_init(
@@ -15,5 +16,8 @@ void shared_pairing_init(
     unsigned int level);
 void shared_params_clear(shared_params_t params);
 void shared_params_setup(shared_params_t params, element_t a, pairing_t pairing);
+
+int isNumeric(const char *str);
+void parse_input(int argn,  char *args[]);
 
 #endif // SHARED

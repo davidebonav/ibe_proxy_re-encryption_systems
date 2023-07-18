@@ -2,8 +2,10 @@
 
 // defaultvalues
 bool compute_parameters = true;
-bool precomputation = false;
-bool pairing_pp = false;
+bool precomputation = true;
+bool pairing_pp = true;
+int sec_level = 90;
+pbc_pairing_type_t type = pbc_pairing_type_a;
 
 void init_shared_params_t(shared_params_t params, pairing_t pairing)
 {
@@ -24,6 +26,9 @@ void clear_shared_params_t(shared_params_t params)
             element_pp_clear(params->pp_g2);
             element_pp_clear(params->pp_h);
         }
+
+        if (pairing_pp)
+            pairing_pp_clear(params->pairing_pp_g2);
 
         element_clear(params->g);
         element_clear(params->g1);
@@ -84,15 +89,23 @@ void clear_cbe_gamal_pk_t(cbe_gamal_pk_t pk)
 {
     if (pk)
     {
+        element_clear(pk->g3);
+        element_clear(pk->g4);
+        element_clear(pk->g5);
+
         if (precomputation)
         {
             element_pp_clear(pk->pp_g3);
             element_pp_clear(pk->pp_g4);
             element_pp_clear(pk->pp_g5);
         }
-        element_clear(pk->g3);
-        element_clear(pk->g4);
-        element_clear(pk->g5);
+
+        if (pairing_pp)
+        {
+            pairing_pp_clear(pk->pairing_pp_g3);
+            pairing_pp_clear(pk->pairing_pp_g4);
+            pairing_pp_clear(pk->pairing_pp_g5);
+        }
     }
 }
 
@@ -128,6 +141,13 @@ void clear_cbe_gamal_C_t(cbe_gamal_C_t C)
             element_pp_clear(C->pp_c1);
             element_pp_clear(C->pp_c2);
             element_pp_clear(C->pp_c3);
+        }
+
+        if (pairing_pp)
+        {
+            pairing_pp_clear(C->pairing_pp_c1);
+            pairing_pp_clear(C->pairing_pp_c2);
+            pairing_pp_clear(C->pairing_pp_c3);
         }
 
         element_clear(C->c1);
@@ -166,5 +186,8 @@ void clear_hybrid_reenc_rkID_t(hybrid_reenc_rkID_t rkID)
         element_clear(rkID->theta);
         element_clear(rkID->delta);
         element_clear(rkID->g_u_b);
+
+        if (pairing_pp)
+            pairing_pp_clear(rkID->pairing_pp_g_u_b);
     }
 }

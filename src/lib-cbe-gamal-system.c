@@ -70,6 +70,12 @@ void cbe_gamal_system_keygen(
         element_pow_zn(pk->g5, params->h, sk->delta);
     }
 
+    if(pairing_pp){
+        pairing_pp_init(pk->pairing_pp_g3, pk->g3, pairing);
+        pairing_pp_init(pk->pairing_pp_g4, pk->g4, pairing);
+        pairing_pp_init(pk->pairing_pp_g5, pk->g5, pairing);
+    }
+
     pmesg_element(msg_verbose, "", sk->theta);
     pmesg_element(msg_verbose, "", sk->beta);
     pmesg_element(msg_verbose, "", sk->delta);
@@ -117,7 +123,16 @@ void cbe_gamal_system_encrypt(
         element_pow_zn(C->c3, pk->g5, r);
     }
 
-    element_pairing(C->c4, params->g1, params->g2);
+    if (pairing_pp)
+    {
+        pairing_pp_init(C->pairing_pp_c1,C->c1, pairing);
+        pairing_pp_init(C->pairing_pp_c2,C->c2, pairing);
+        pairing_pp_init(C->pairing_pp_c3,C->c3, pairing);
+
+        pairing_pp_apply(C->c4, params->g1, params->pairing_pp_g2);
+    }
+    else
+        element_pairing(C->c4, params->g1, params->g2);
     element_pow_zn(C->c4, C->c4, r);
     pmesg_element(msg_verbose, "TEMPORAL RESULT", C->c4);
     element_mul(C->c4, C->c4, M);
@@ -153,7 +168,11 @@ void cbe_gamal_system_decrypt(
         element_pp_pow_zn(tmp2, tmp1, C->pp_c2);
     else
         element_pow_zn(tmp2, C->c2, tmp1);
-    element_pairing(M, tmp2, params->g2);
+
+    if (pairing_pp)
+        pairing_pp_apply(M, tmp2, params->pairing_pp_g2);
+    else
+        element_pairing(M, tmp2, params->g2);
     element_div(M, C->c4, M);
 
     element_clear(tmp1);

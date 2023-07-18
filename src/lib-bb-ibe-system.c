@@ -81,6 +81,12 @@ void bb_ibe_system_keygen(
     else
         element_pow_zn(skID->d1, params->g, u);
 
+    if (pairing_pp)
+    {
+        pairing_pp_init(skID->pairing_pp_d0, skID->d0, pairing);
+        pairing_pp_init(skID->pairing_pp_d1, skID->d1, pairing);
+    }
+
     pmesg_element(msg_verbose, "u = ", u);
     pmesg_element(msg_verbose, "", skID->d0);
     pmesg_element(msg_verbose, "", skID->d1);
@@ -122,7 +128,10 @@ void bb_ibe_system_encrypt(
     element_mul(C->c2, C->c2, params->h);
     element_pow_zn(C->c2, C->c2, r);
 
-    element_pairing(C->c3, params->g1, params->g2);
+    if (pairing_pp)
+        pairing_pp_apply(C->c3, params->g1, params->pairing_pp_g2);
+    else
+        element_pairing(C->c3, params->g1, params->g2);
     element_pow_zn(C->c3, C->c3, r);
     element_mul(C->c3, C->c3, M);
 
@@ -151,9 +160,18 @@ void bb_ibe_system_decrypt(
     element_init_GT(tmp1, pairing);
     element_init_GT(tmp2, pairing);
 
-    element_pairing(tmp1, sk->d1, C->c2);
+    if (pairing_pp)
+    {
+        pairing_pp_apply(tmp1, C->c2, sk->pairing_pp_d1);
+        pairing_pp_apply(tmp2, C->c1, sk->pairing_pp_d0);
+    }
+    else
+    {
+        element_pairing(tmp1, sk->d1, C->c2);
+        element_pairing(tmp2, sk->d0, C->c1);
+    }
+
     element_mul(tmp1, tmp1, C->c3);
-    element_pairing(tmp2, sk->d0, C->c1);
 
     element_div(M, tmp1, tmp2);
 

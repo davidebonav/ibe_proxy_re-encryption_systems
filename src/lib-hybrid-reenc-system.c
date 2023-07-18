@@ -50,6 +50,9 @@ void hybrid_reenc_system_keygen_pro(
     else
         element_pow_zn(rkID->g_u_b, eID->eID, tmp);
 
+    if (pairing_pp)
+        pairing_pp_init(rkID->pairing_pp_g_u_b, rkID->g_u_b, pairing);
+
     pmesg_element(msg_verbose, "", rkID->theta);
     pmesg_element(msg_verbose, "", rkID->g_u_b);
     pmesg_element(msg_verbose, "", rkID->delta);
@@ -93,7 +96,11 @@ void hybrid_reenc_system_reenc(
         element_pow_zn(C_ID->c2, C_PK->c3, tmp);
         element_pow_zn(tmp2, C_PK->c2, ID);
     }
-    element_pairing(C_ID->c3, rkID->g_u_b, tmp2);
+
+    if (pairing_pp)
+        pairing_pp_apply(C_ID->c3, tmp2, rkID->pairing_pp_g_u_b);
+    else
+        element_pairing(C_ID->c3, rkID->g_u_b, tmp2);
     element_mul(C_ID->c3, C_PK->c4, C_ID->c3);
 
     pmesg_element(msg_verbose, "", C_ID->c1);
@@ -121,10 +128,20 @@ int hybrid_reenc_system_check(
     element_init_GT(v3, pairing);
     element_init_GT(v4, pairing);
 
-    element_pairing(v1, C_PK->c1, pk->g4);
-    element_pairing(v2, C_PK->c2, pk->g3);
-    element_pairing(v3, C_PK->c2, pk->g5);
-    element_pairing(v4, C_PK->c3, pk->g4);
+    if (pairing_pp)
+    {
+        pairing_pp_apply(v1, pk->g4, C_PK->pairing_pp_c1);
+        pairing_pp_apply(v2, pk->g3, C_PK->pairing_pp_c2);
+        pairing_pp_apply(v3, pk->g5, C_PK->pairing_pp_c2);
+        pairing_pp_apply(v4, pk->g4, C_PK->pairing_pp_c3);
+    }
+    else
+    {
+        element_pairing(v1, C_PK->c1, pk->g4);
+        element_pairing(v2, C_PK->c2, pk->g3);
+        element_pairing(v3, C_PK->c2, pk->g5);
+        element_pairing(v4, C_PK->c3, pk->g4);
+    }
 
     pmesg_element(msg_verbose, "", v1);
     pmesg_element(msg_verbose, "", v2);
