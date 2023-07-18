@@ -34,7 +34,10 @@ void bb_ibe_system_setup(
         shared_params_setup(params, a, pairing);
 
     init_bb_ibe_mk_t(mk, pairing);
-    element_pow_zn(mk->mk, params->g2, a);
+    if (precomputation)
+        element_pp_pow_zn(mk->mk, a, params->pp_g2);
+    else
+        element_pow_zn(mk->mk, params->g2, a);
     pmesg_element(msg_verbose, "", mk->mk);
 
     element_clear(a);
@@ -59,16 +62,24 @@ void bb_ibe_system_keygen(
     element_t u;
 
     init_bb_ibe_skID_t(skID, pairing);
-    element_init_Zr(u, pairing);
 
+    element_init_Zr(u, pairing);
     element_random(u);
 
-    element_pow_zn(skID->d0, params->g1, ID);
+    if (precomputation)
+        element_pp_pow_zn(skID->d0, ID, params->pp_g1);
+    else
+        element_pow_zn(skID->d0, params->g1, ID);
     element_mul(skID->d0, skID->d0, params->h);
     element_pow_zn(skID->d0, skID->d0, u);
     element_mul(skID->d0, skID->d0, mk->mk);
-
-    element_pow_zn(skID->d1, params->g, u);
+    if (precomputation)
+    {
+        element_pp_init(skID->pp_d0, skID->d0);
+        element_pp_pow_zn(skID->d1, u, params->pp_g);
+    }
+    else
+        element_pow_zn(skID->d1, params->g, u);
 
     pmesg_element(msg_verbose, "u = ", u);
     pmesg_element(msg_verbose, "", skID->d0);
@@ -98,9 +109,16 @@ void bb_ibe_system_encrypt(
     init_bb_ibe_C_t(C, pairing);
 
     element_random(r);
-    element_pow_zn(C->c1, params->g, r);
-
-    element_pow_zn(C->c2, params->g1, ID);
+    if (precomputation)
+    {
+        element_pp_pow_zn(C->c1, r, params->pp_g);
+        element_pp_pow_zn(C->c2, ID, params->pp_g1);
+    }
+    else
+    {
+        element_pow_zn(C->c1, params->g, r);
+        element_pow_zn(C->c2, params->g1, ID);
+    }
     element_mul(C->c2, C->c2, params->h);
     element_pow_zn(C->c2, C->c2, r);
 

@@ -52,9 +52,23 @@ void cbe_gamal_system_keygen(
     element_random(sk->theta);
     element_random(sk->beta);
     element_random(sk->delta);
-    element_pow_zn(pk->g3, params->g, sk->theta);
-    element_pow_zn(pk->g4, params->g1, sk->beta);
-    element_pow_zn(pk->g5, params->h, sk->delta);
+
+    if (precomputation)
+    {
+        element_pp_pow_zn(pk->g3, sk->theta, params->pp_g);
+        element_pp_pow_zn(pk->g4, sk->beta, params->pp_g1);
+        element_pp_pow_zn(pk->g5, sk->delta, params->pp_h);
+
+        element_pp_init(pk->pp_g3, pk->g3);
+        element_pp_init(pk->pp_g4, pk->g4);
+        element_pp_init(pk->pp_g5, pk->g5);
+    }
+    else
+    {
+        element_pow_zn(pk->g3, params->g, sk->theta);
+        element_pow_zn(pk->g4, params->g1, sk->beta);
+        element_pow_zn(pk->g5, params->h, sk->delta);
+    }
 
     pmesg_element(msg_verbose, "", sk->theta);
     pmesg_element(msg_verbose, "", sk->beta);
@@ -86,9 +100,22 @@ void cbe_gamal_system_encrypt(
     init_cbe_gamal_C_t(C, pairing);
 
     element_random(r);
-    element_pow_zn(C->c1, pk->g3, r);
-    element_pow_zn(C->c2, pk->g4, r);
-    element_pow_zn(C->c3, pk->g5, r);
+    if (precomputation)
+    {
+        element_pp_pow_zn(C->c1, r, pk->pp_g3);
+        element_pp_pow_zn(C->c2, r, pk->pp_g4);
+        element_pp_pow_zn(C->c3, r, pk->pp_g5);
+
+        element_pp_init(C->pp_c1, C->c1);
+        element_pp_init(C->pp_c2, C->c2);
+        element_pp_init(C->pp_c3, C->c3);
+    }
+    else
+    {
+        element_pow_zn(C->c1, pk->g3, r);
+        element_pow_zn(C->c2, pk->g4, r);
+        element_pow_zn(C->c3, pk->g5, r);
+    }
 
     element_pairing(C->c4, params->g1, params->g2);
     element_pow_zn(C->c4, C->c4, r);
@@ -122,7 +149,10 @@ void cbe_gamal_system_decrypt(
     element_init_G1(tmp2, pairing);
     element_invert(tmp1, sk->beta);
 
-    element_pow_zn(tmp2, C->c2, tmp1);
+    if (precomputation)
+        element_pp_pow_zn(tmp2, tmp1, C->pp_c2);
+    else
+        element_pow_zn(tmp2, C->c2, tmp1);
     element_pairing(M, tmp2, params->g2);
     element_div(M, C->c4, M);
 

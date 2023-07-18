@@ -1,5 +1,10 @@
 #include "lib-custom-types.h"
 
+// defaultvalues
+bool compute_parameters = true;
+bool precomputation = false;
+bool pairing_pp = false;
+
 void init_shared_params_t(shared_params_t params, pairing_t pairing)
 {
     element_init_G1(params->g, pairing);
@@ -11,6 +16,15 @@ void clear_shared_params_t(shared_params_t params)
 {
     if (params)
     {
+
+        if (precomputation)
+        {
+            element_pp_clear(params->pp_g);
+            element_pp_clear(params->pp_g1);
+            element_pp_clear(params->pp_g2);
+            element_pp_clear(params->pp_h);
+        }
+
         element_clear(params->g);
         element_clear(params->g1);
         element_clear(params->g2);
@@ -39,6 +53,8 @@ void clear_bb_ibe_skID_t(bb_ibe_skID_t skID)
     {
         element_clear(skID->d0);
         element_clear(skID->d1);
+        if (precomputation)
+            element_pp_clear(skID->pp_d0);
     }
 }
 
@@ -68,6 +84,12 @@ void clear_cbe_gamal_pk_t(cbe_gamal_pk_t pk)
 {
     if (pk)
     {
+        if (precomputation)
+        {
+            element_pp_clear(pk->pp_g3);
+            element_pp_clear(pk->pp_g4);
+            element_pp_clear(pk->pp_g5);
+        }
         element_clear(pk->g3);
         element_clear(pk->g4);
         element_clear(pk->g5);
@@ -101,6 +123,13 @@ void clear_cbe_gamal_C_t(cbe_gamal_C_t C)
 {
     if (C)
     {
+        if (precomputation)
+        {
+            element_pp_clear(C->pp_c1);
+            element_pp_clear(C->pp_c2);
+            element_pp_clear(C->pp_c3);
+        }
+
         element_clear(C->c1);
         element_clear(C->c2);
         element_clear(C->c3);
@@ -115,7 +144,13 @@ void init_hybrid_reenc_eID_t(hybrid_reenc_eID_t eID, pairing_t pairing)
 void clear_hybrid_reenc_eID_t(hybrid_reenc_eID_t eID)
 {
     if (eID)
+    {
+
+        if (precomputation)
+            element_pp_clear(eID->pp_eID);
+
         element_clear(eID->eID);
+    }
 }
 
 void init_hybrid_reenc_rkID_t(hybrid_reenc_rkID_t rkID, pairing_t pairing)

@@ -8,9 +8,6 @@
 #include <pbc/pbc.h>
 #include <assert.h>
 
-extern bool compute_parameters;
-extern bool precomputation;
-
 int shared_pairing_is_symmetric(pbc_pairing_type_t type);
 void shared_pairing_init(
     pairing_t pairing,

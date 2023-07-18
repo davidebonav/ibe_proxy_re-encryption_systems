@@ -1,9 +1,5 @@
 #include "lib-shared.h"
 
-// defaultvalues
-bool compute_parameters = true;
-bool precomputation = false;
-
 int shared_pairing_is_symmetric(pbc_pairing_type_t type)
 {
     pmesg(msg_verbose, "START shared_pairing_is_symmetric ...");
@@ -65,10 +61,23 @@ void shared_params_setup(shared_params_t params, element_t a, pairing_t pairing)
 
     init_shared_params_t(params, pairing);
 
-    element_random(params->g); // the order is prime, all the element are generator
-    element_pow_zn(params->g1, params->g, a);
+    element_random(params->g);
+    if (precomputation)
+    {
+        element_pp_init(params->pp_g, params->g);
+        element_pp_pow_zn(params->g1, a, params->pp_g);
+    }
+    else
+        element_pow_zn(params->g1, params->g, a);
     element_random(params->g2);
     element_random(params->h);
+
+    if (precomputation)
+    {
+        element_pp_init(params->pp_g1, params->g1);
+        element_pp_init(params->pp_g2, params->g2);
+        element_pp_init(params->pp_h, params->h);
+    }
 
     pmesg_element(msg_verbose, "", params->g);
     pmesg_element(msg_verbose, "", params->g1);

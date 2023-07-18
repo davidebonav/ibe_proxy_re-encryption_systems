@@ -16,8 +16,12 @@ void hybrid_reenc_system_egen(
     pairing_t pairing)
 {
     pmesg(msg_verbose, "START hybrid_reenc_system_egen ...");
-    init_hybrid_reenc_eID_t(eID,pairing);
+    init_hybrid_reenc_eID_t(eID, pairing);
     element_set(eID->eID, skID->d1);
+
+    if (precomputation)
+        element_pp_init(eID->pp_eID, eID->eID);
+
     pmesg_element(msg_verbose, "", eID->eID);
     pmesg(msg_verbose, "END hybrid_reenc_system_egen ...");
 }
@@ -35,13 +39,16 @@ void hybrid_reenc_system_keygen_pro(
 
     element_init_Zr(tmp, pairing);
 
-    init_hybrid_reenc_rkID_t(rkID,pairing);
+    init_hybrid_reenc_rkID_t(rkID, pairing);
 
     element_set(rkID->theta, sk->theta);
     element_set(rkID->delta, sk->delta);
 
     element_invert(tmp, sk->beta);
-    element_pow_zn(rkID->g_u_b, eID->eID, tmp);
+    if (precomputation)
+        element_pp_pow_zn(rkID->g_u_b, tmp, eID->pp_eID);
+    else
+        element_pow_zn(rkID->g_u_b, eID->eID, tmp);
 
     pmesg_element(msg_verbose, "", rkID->theta);
     pmesg_element(msg_verbose, "", rkID->g_u_b);
@@ -67,15 +74,25 @@ void hybrid_reenc_system_reenc(
     element_init_Zr(tmp, pairing);
     element_init_G1(tmp2, pairing);
 
-    init_bb_ibe_C_t(C_ID,pairing);
+    init_bb_ibe_C_t(C_ID, pairing);
 
     element_invert(tmp, rkID->theta);
-    element_pow_zn(C_ID->c1, C_PK->c1, tmp);
+    if (precomputation)
+        element_pp_pow_zn(C_ID->c1, tmp, C_PK->pp_c1);
+    else
+        element_pow_zn(C_ID->c1, C_PK->c1, tmp);
 
     element_invert(tmp, rkID->delta);
-    element_pow_zn(C_ID->c2, C_PK->c3, tmp);
-
-    element_pow_zn(tmp2, C_PK->c2, ID);
+    if (precomputation)
+    {
+        element_pp_pow_zn(C_ID->c2, tmp, C_PK->pp_c3);
+        element_pp_pow_zn(tmp2, ID, C_PK->pp_c2);
+    }
+    else
+    {
+        element_pow_zn(C_ID->c2, C_PK->c3, tmp);
+        element_pow_zn(tmp2, C_PK->c2, ID);
+    }
     element_pairing(C_ID->c3, rkID->g_u_b, tmp2);
     element_mul(C_ID->c3, C_PK->c4, C_ID->c3);
 
