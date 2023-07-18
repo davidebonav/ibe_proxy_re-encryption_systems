@@ -9,7 +9,7 @@
 
 int main()
 {
-    set_messaging_level(msg_very_verbose);
+    set_messaging_level(msg_normal);
 
     pairing_t pairing;
     hybrid_reenc_params_t params;
@@ -21,7 +21,7 @@ int main()
 
     element_init_GT(M, pairing);
     element_random(M);
-    pmesg_element(msg_verbose, "Messaggio generato", M);
+    pmesg_element(msg_normal, "Messaggio generato", M);
 
     // INIT BB-IBE
     element_t ID;
@@ -31,7 +31,7 @@ int main()
 
     element_init_Zr(ID, pairing);
     element_random(ID);
-    pmesg_element(msg_verbose, "Identità IBE", ID);
+    pmesg_element(msg_normal, "Identità IBE", ID);
 
     optn.precompute_parameters = true;
     bb_ibe_system_setup(params, mkID, pairing, optn);
@@ -42,7 +42,7 @@ int main()
     bb_ibe_system_encrypt(ct_ID, ID, params, M, pairing);
     bb_ibe_system_decrypt(m1_ID, skID, ct_ID, params, pairing);
 
-    pmesg_element(msg_verbose, "", m1_ID);
+    pmesg_element(msg_normal, "", m1_ID);
 
     if (element_cmp(M, m1_ID) == 0)
         pmesg(msg_silence, "The system works correctly, the two elements are equal");
@@ -69,7 +69,7 @@ int main()
     cbe_gamal_system_encrypt(C, pk, params, M, pairing);
     cbe_gamal_system_decrypt(M1, sk, params, C, pairing);
 
-    pmesg_element(msg_verbose, "", M1);
+    pmesg_element(msg_normal, "", M1);
 
     if (element_cmp(M, M1) == 0)
         pmesg(msg_silence, "The system works correctly, the two elements are equal");
@@ -104,7 +104,7 @@ int main()
 
     hybrid_reenc_system_reenc(ct_ID, rkID, params, C, ID, pairing);
     bb_ibe_system_decrypt(m_dec, skID, ct_ID, params, pairing);
-    pmesg_element(msg_verbose, "", m_dec);
+    pmesg_element(msg_normal, "", m_dec);
 
     if (element_cmp(M, m_dec) == 0)
         pmesg(msg_silence, "The system works correctly, the two elements are equal");

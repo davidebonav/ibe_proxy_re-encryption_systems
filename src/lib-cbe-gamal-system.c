@@ -6,14 +6,14 @@ void cbe_gamal_clear(
     cbe_gamal_sk_t sk,
     cbe_gamal_C_t C)
 {
-    pmesg(msg_very_verbose, "START cbe_gamal_clear ...");
+    pmesg(msg_verbose, "START cbe_gamal_clear ...");
 
     shared_params_clear(params);
     clear_cbe_gamal_pk_t(pk);
     clear_cbe_gamal_sk_t(sk);
     clear_cbe_gamal_C_t(C);
 
-    pmesg(msg_very_verbose, "END cbe_gamal_clear ...");
+    pmesg(msg_verbose, "END cbe_gamal_clear ...");
 }
 
 void cbe_gamal_system_setup(
@@ -21,7 +21,7 @@ void cbe_gamal_system_setup(
     pairing_t pairing,
     options optn)
 {
-    pmesg(msg_very_verbose, "START cbe_gamal_system_setup ...");
+    pmesg(msg_verbose, "START cbe_gamal_system_setup ...");
 
     element_t a;
     element_init_Zr(a, pairing);
@@ -31,7 +31,7 @@ void cbe_gamal_system_setup(
     if (optn.precompute_parameters)
         shared_params_setup(params, a, pairing);
 
-    pmesg(msg_very_verbose, "END cbe_gamal_system_setup ...");
+    pmesg(msg_verbose, "END cbe_gamal_system_setup ...");
 }
 
 void cbe_gamal_system_keygen(
@@ -40,7 +40,7 @@ void cbe_gamal_system_keygen(
     cbe_gamal_params_t params,
     pairing_t pairing)
 {
-    pmesg(msg_very_verbose, "END cbe_gamal_system_keygen ...");
+    pmesg(msg_verbose, "END cbe_gamal_system_keygen ...");
 
     assert(sk);
     assert(pk);
@@ -64,7 +64,7 @@ void cbe_gamal_system_keygen(
     pmesg_element(msg_verbose, "", pk->g4);
     pmesg_element(msg_verbose, "", pk->g5);
 
-    pmesg(msg_very_verbose, "END cbe_gamal_system_keygen ...");
+    pmesg(msg_verbose, "END cbe_gamal_system_keygen ...");
 }
 
 void cbe_gamal_system_encrypt(
@@ -74,7 +74,7 @@ void cbe_gamal_system_encrypt(
     element_t M,
     pairing_t pairing)
 {
-    pmesg(msg_very_verbose, "START cbe_gamal_system_encrypt ...");
+    pmesg(msg_verbose, "START cbe_gamal_system_encrypt ...");
 
     assert(C);
     assert(pk);
@@ -103,7 +103,7 @@ void cbe_gamal_system_encrypt(
     pmesg_element(msg_verbose, "", C->c4);
 
     element_clear(r);
-    pmesg(msg_very_verbose, "END cbe_gamal_system_encrypt ...");
+    pmesg(msg_verbose, "END cbe_gamal_system_encrypt ...");
 }
 
 void cbe_gamal_system_decrypt(
@@ -113,7 +113,7 @@ void cbe_gamal_system_decrypt(
     cbe_gamal_C_t C,
     pairing_t pairing)
 {
-    pmesg(msg_very_verbose, "START cbe_gamal_system_decrypt ...");
+    pmesg(msg_verbose, "START cbe_gamal_system_decrypt ...");
 
     element_t tmp1, tmp2;
 
@@ -132,5 +132,5 @@ void cbe_gamal_system_decrypt(
 
     pmesg_element(msg_verbose, "", M);
 
-    pmesg(msg_very_verbose, "END cbe_gamal_system_decrypt ...");
+    pmesg(msg_verbose, "END cbe_gamal_system_decrypt ...");
 }

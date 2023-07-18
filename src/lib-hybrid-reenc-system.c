@@ -4,10 +4,10 @@ void hybrid_reenc_clear(
     hybrid_reenc_eID_t eID,
     hybrid_reenc_rkID_t rkID)
 {
-    pmesg(msg_very_verbose, "START hybrid_reenc_clear ...");
+    pmesg(msg_verbose, "START hybrid_reenc_clear ...");
     clear_hybrid_reenc_eID_t(eID);
     clear_hybrid_reenc_rkID_t(rkID);
-    pmesg(msg_very_verbose, "END hybrid_reenc_clear ...");
+    pmesg(msg_verbose, "END hybrid_reenc_clear ...");
 }
 
 void hybrid_reenc_system_egen(
@@ -15,11 +15,11 @@ void hybrid_reenc_system_egen(
     bb_ibe_skID_t skID,
     pairing_t pairing)
 {
-    pmesg(msg_very_verbose, "START hybrid_reenc_system_egen ...");
+    pmesg(msg_verbose, "START hybrid_reenc_system_egen ...");
     init_hybrid_reenc_eID_t(eID,pairing);
     element_set(eID->eID, skID->d1);
     pmesg_element(msg_verbose, "", eID->eID);
-    pmesg(msg_very_verbose, "END hybrid_reenc_system_egen ...");
+    pmesg(msg_verbose, "END hybrid_reenc_system_egen ...");
 }
 
 void hybrid_reenc_system_keygen_pro(
@@ -29,7 +29,7 @@ void hybrid_reenc_system_keygen_pro(
     hybrid_reenc_params_t params,
     pairing_t pairing)
 {
-    pmesg(msg_very_verbose, "START hybrid_reenc_system_keygen_pro ...");
+    pmesg(msg_verbose, "START hybrid_reenc_system_keygen_pro ...");
 
     element_t tmp;
 
@@ -49,7 +49,7 @@ void hybrid_reenc_system_keygen_pro(
 
     element_clear(tmp);
 
-    pmesg(msg_very_verbose, "END hybrid_reenc_system_keygen_pro ...");
+    pmesg(msg_verbose, "END hybrid_reenc_system_keygen_pro ...");
 }
 
 void hybrid_reenc_system_reenc(
@@ -60,7 +60,7 @@ void hybrid_reenc_system_reenc(
     element_t ID,
     pairing_t pairing)
 {
-    pmesg(msg_very_verbose, "START hybrid_reenc_system_reenc ...");
+    pmesg(msg_verbose, "START hybrid_reenc_system_reenc ...");
 
     element_t tmp, tmp2;
 
@@ -86,7 +86,7 @@ void hybrid_reenc_system_reenc(
     element_clear(tmp);
     element_clear(tmp2);
 
-    pmesg(msg_very_verbose, "END hybrid_reenc_system_reenc ...");
+    pmesg(msg_verbose, "END hybrid_reenc_system_reenc ...");
 }
 
 int hybrid_reenc_system_check(

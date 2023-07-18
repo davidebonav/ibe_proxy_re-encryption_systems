@@ -9,7 +9,7 @@
 
 int main()
 {
-    set_messaging_level(msg_very_verbose);
+    set_messaging_level(msg_normal);
 
     pairing_t pairing;
 
@@ -29,15 +29,15 @@ int main()
 
     element_random(ID);
     element_random(M);
-    pmesg_element(msg_verbose, "", ID);
-    pmesg_element(msg_verbose, "", M);
+    pmesg_element(msg_normal, "", ID);
+    pmesg_element(msg_normal, "", M);
 
     bb_ibe_system_setup(params, mk, pairing, optn);
     bb_ibe_system_keygen(sk, params, mk, ID, pairing);
     bb_ibe_system_encrypt(C, ID, params, M, pairing);
     bb_ibe_system_decrypt(M1, sk, C, params, pairing);
 
-    pmesg_element(msg_verbose, "", M1);
+    pmesg_element(msg_normal, "", M1);
 
     if (element_cmp(M, M1) == 0)
         pmesg(msg_silence, "The system works correctly, the two elements are equal");

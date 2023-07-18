@@ -9,7 +9,7 @@
 
 int main()
 {
-    set_messaging_level(msg_very_verbose);
+    set_messaging_level(msg_normal);
 
     pairing_t pairing;
 
@@ -26,14 +26,14 @@ int main()
 
     element_init_GT(M, pairing);
     element_random(M);
-    pmesg_element(msg_verbose, "", M);
+    pmesg_element(msg_normal, "", M);
 
     cbe_gamal_system_setup(params, pairing, optn);
     cbe_gamal_system_keygen(sk, pk, params, pairing);
     cbe_gamal_system_encrypt(C, pk, params, M, pairing);
     cbe_gamal_system_decrypt(M1, sk, params, C, pairing);
 
-    pmesg_element(msg_verbose, "", M1);
+    pmesg_element(msg_normal, "", M1);
 
     if (element_cmp(M, M1) == 0)
         pmesg(msg_silence, "The system works correctly, the two elements are equal");

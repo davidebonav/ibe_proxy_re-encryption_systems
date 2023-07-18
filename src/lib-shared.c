@@ -2,7 +2,7 @@
 
 int shared_pairing_is_symmetric(pbc_pairing_type_t type)
 {
-    pmesg(msg_very_verbose, "START shared_pairing_is_symmetric ...");
+    pmesg(msg_verbose, "START shared_pairing_is_symmetric ...");
 
     if (type == pbc_pairing_type_a || type == pbc_pairing_type_a1 || type == pbc_pairing_type_e)
         return 1;
@@ -16,7 +16,7 @@ void shared_pairing_init(
     unsigned int level // this is the arameter k of the schemas
 )
 {
-    pmesg(msg_very_verbose, "START shared_pairing_init ...");
+    pmesg(msg_verbose, "START shared_pairing_init ...");
 
     assert(shared_pairing_is_symmetric(pairing_type));
     assert(level);
@@ -43,19 +43,19 @@ void shared_pairing_init(
 
     assert(pairing_is_symmetric(pairing));
 
-    pmesg(msg_very_verbose, "END shared_pairing_init ...");
+    pmesg(msg_verbose, "END shared_pairing_init ...");
 }
 
 void shared_params_clear(shared_params_t params)
 {
-    pmesg(msg_very_verbose, "START shared_params_clear ...");
+    pmesg(msg_verbose, "START shared_params_clear ...");
     clear_shared_params_t(params);
-    pmesg(msg_very_verbose, "END shared_params_clear ...");
+    pmesg(msg_verbose, "END shared_params_clear ...");
 }
 
 void shared_params_setup(shared_params_t params, element_t a, pairing_t pairing)
 {
-    pmesg(msg_very_verbose, "START shared_params_setup ...");
+    pmesg(msg_verbose, "START shared_params_setup ...");
 
     assert(params);
 
@@ -71,5 +71,5 @@ void shared_params_setup(shared_params_t params, element_t a, pairing_t pairing)
     pmesg_element(msg_verbose, "", params->g2);
     pmesg_element(msg_verbose, "", params->h);
 
-    pmesg(msg_very_verbose, "END shared_params_setup ...");
+    pmesg(msg_verbose, "END shared_params_setup ...");
 }

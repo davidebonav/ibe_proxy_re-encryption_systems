@@ -6,14 +6,14 @@ void bb_ibe_clear(
     bb_ibe_skID_t sk,
     bb_ibe_C_t C)
 {
-    pmesg(msg_very_verbose, "START bb_ibe_clear ...");
+    pmesg(msg_verbose, "START bb_ibe_clear ...");
 
     shared_params_clear(params);
     clear_bb_ibe_mk_t(mk);
     clear_bb_ibe_skID_t(sk);
     clear_bb_ibe_C_t(C);
 
-    pmesg(msg_very_verbose, "END bb_ibe_clear ...");
+    pmesg(msg_verbose, "END bb_ibe_clear ...");
 }
 
 void bb_ibe_system_setup(
@@ -22,7 +22,7 @@ void bb_ibe_system_setup(
     pairing_t pairing,
     options optn)
 {
-    pmesg(msg_very_verbose, "START bb_ibe_system_setup ...");
+    pmesg(msg_verbose, "START bb_ibe_system_setup ...");
 
     assert(mk);
 
@@ -39,7 +39,7 @@ void bb_ibe_system_setup(
     pmesg_element(msg_verbose, "", mk->mk);
 
     element_clear(a);
-    pmesg(msg_very_verbose, "END bb_ibe_system_setup ...");
+    pmesg(msg_verbose, "END bb_ibe_system_setup ...");
 }
 
 void bb_ibe_system_keygen(
@@ -49,7 +49,7 @@ void bb_ibe_system_keygen(
     element_t ID,
     pairing_t pairing)
 {
-    pmesg(msg_very_verbose, "END bb_ibe_system_keygen ...");
+    pmesg(msg_verbose, "END bb_ibe_system_keygen ...");
 
     assert(skID);
     assert(params);
@@ -76,7 +76,7 @@ void bb_ibe_system_keygen(
     pmesg_element(msg_verbose, "", skID->d1);
 
     element_clear(u);
-    pmesg(msg_very_verbose, "END bb_ibe_system_keygen ...");
+    pmesg(msg_verbose, "END bb_ibe_system_keygen ...");
 }
 
 void bb_ibe_system_encrypt(
@@ -86,7 +86,7 @@ void bb_ibe_system_encrypt(
     element_t M,
     pairing_t pairing)
 {
-    pmesg(msg_very_verbose, "START bb_ibe_system_encrypt ...");
+    pmesg(msg_verbose, "START bb_ibe_system_encrypt ...");
 
     assert(C);
     assert(ID);
@@ -115,7 +115,7 @@ void bb_ibe_system_encrypt(
     pmesg_element(msg_verbose, "", C->c3);
 
     element_clear(r);
-    pmesg(msg_very_verbose, "END bb_ibe_system_encrypt ...");
+    pmesg(msg_verbose, "END bb_ibe_system_encrypt ...");
 }
 
 void bb_ibe_system_decrypt(
@@ -125,7 +125,7 @@ void bb_ibe_system_decrypt(
     bb_ibe_params_t params,
     pairing_t pairing)
 {
-    pmesg(msg_very_verbose, "START bb_ibe_system_decrypt ...");
+    pmesg(msg_verbose, "START bb_ibe_system_decrypt ...");
 
     element_t tmp1, tmp2;
 
@@ -145,5 +145,5 @@ void bb_ibe_system_decrypt(
 
     pmesg_element(msg_verbose, "", M);
 
-    pmesg(msg_very_verbose, "END bb_ibe_system_decrypt ...");
+    pmesg(msg_verbose, "END bb_ibe_system_decrypt ...");
 }
