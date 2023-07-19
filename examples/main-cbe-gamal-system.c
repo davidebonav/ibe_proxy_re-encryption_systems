@@ -1,7 +1,4 @@
 #include <stdio.h>
-#include <nettle/ecc.h>
-#include <nettle/ecc-curve.h>
-#include <gmp.h>
 
 #include "lib-mesg.h"
 #include "lib-cbe-gamal-system.h"

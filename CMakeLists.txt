@@ -47,26 +47,26 @@ set_target_properties(
 )
 
 # serve solo per i file con il main per le library non è lincata
-target_link_libraries(main-bb-ibe-system mdr my-lib m gmp nettle hogweed pbc)
-target_link_libraries(main-bb-ibe-system mdr my-lib m gmp nettle hogweed pbc)
+target_link_libraries(main-bb-ibe-system mdr my-lib m gmp pbc)
+target_link_libraries(main-bb-ibe-system mdr my-lib m gmp pbc)
 
-target_link_libraries(main-cbe-gamal-system mdr my-lib m gmp nettle hogweed pbc)
-target_link_libraries(main-cbe-gamal-system mdr my-lib m gmp nettle hogweed pbc)
+target_link_libraries(main-cbe-gamal-system mdr my-lib m gmp pbc)
+target_link_libraries(main-cbe-gamal-system mdr my-lib m gmp pbc)
 
-target_link_libraries(main-hybrid-reenc-system mdr my-lib m gmp nettle hogweed pbc)
-target_link_libraries(main-hybrid-reenc-system mdr my-lib m gmp nettle hogweed pbc)
+target_link_libraries(main-hybrid-reenc-system mdr my-lib m gmp pbc)
+target_link_libraries(main-hybrid-reenc-system mdr my-lib m gmp pbc)
 
-target_link_libraries(main-ibe-reenc-system mdr my-lib m gmp nettle hogweed pbc)
-target_link_libraries(main-ibe-reenc-system mdr my-lib m gmp nettle hogweed pbc)
+target_link_libraries(main-ibe-reenc-system mdr my-lib m gmp pbc)
+target_link_libraries(main-ibe-reenc-system mdr my-lib m gmp pbc)
 
-target_link_libraries(test-bb-ibe-system mdr my-lib m gmp nettle hogweed pbc)
-target_link_libraries(test-bb-ibe-system mdr my-lib m gmp nettle hogweed pbc)
+target_link_libraries(test-bb-ibe-system mdr my-lib m gmp pbc)
+target_link_libraries(test-bb-ibe-system mdr my-lib m gmp pbc)
 
-target_link_libraries(test-cbe-gamal-system mdr my-lib m gmp nettle hogweed pbc)
-target_link_libraries(test-cbe-gamal-system mdr my-lib m gmp nettle hogweed pbc)
+target_link_libraries(test-cbe-gamal-system mdr my-lib m gmp pbc)
+target_link_libraries(test-cbe-gamal-system mdr my-lib m gmp pbc)
 
-target_link_libraries(test-hybrid-reenc-system mdr my-lib m gmp nettle hogweed pbc)
-target_link_libraries(test-hybrid-reenc-system mdr my-lib m gmp nettle hogweed pbc)
+target_link_libraries(test-hybrid-reenc-system mdr my-lib m gmp pbc)
+target_link_libraries(test-hybrid-reenc-system mdr my-lib m gmp pbc)
 
-target_link_libraries(test-ibe-reenc-system mdr my-lib m gmp nettle hogweed pbc)
-target_link_libraries(test-ibe-reenc-system mdr my-lib m gmp nettle hogweed pbc)
+target_link_libraries(test-ibe-reenc-system mdr my-lib m gmp pbc)
+target_link_libraries(test-ibe-reenc-system mdr my-lib m gmp pbc)
