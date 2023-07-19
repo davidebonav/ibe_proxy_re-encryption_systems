@@ -26,20 +26,22 @@ add_library(my-lib ${MY_LIBRARIES_SOURCES} ${MY_LIBRARIES_HEADERS})
 add_executable(main-bb-ibe-system examples/main-bb-ibe-system.c)
 add_executable(main-cbe-gamal-system examples/main-cbe-gamal-system.c)
 add_executable(main-hybrid-reenc-system examples/main-hybrid-reenc-system.c)
+add_executable(main-ibe-reenc-system examples/main-ibe-reenc-system.c)
 
 add_executable(test-bb-ibe-system tests/test-bb-ibe-system.c)
 add_executable(test-cbe-gamal-system tests/test-cbe-gamal-system.c)
 add_executable(test-hybrid-reenc-system tests/test-hybrid-reenc-system.c)
+add_executable(test-ibe-reenc-system tests/test-ibe-reenc-system.c)
 
 # set output directory of executable
 set_target_properties(
-    main-bb-ibe-system main-cbe-gamal-system main-hybrid-reenc-system 
+    main-bb-ibe-system main-cbe-gamal-system main-hybrid-reenc-system main-ibe-reenc-system 
     PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${EXECUTABLE_OUTPUT_PATH}"
 )
 
 set_target_properties(
-    test-bb-ibe-system test-cbe-gamal-system test-hybrid-reenc-system
+    test-bb-ibe-system test-cbe-gamal-system test-hybrid-reenc-system test-ibe-reenc-system
     PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${TEST_OUTPUT_PATH}"
 )
@@ -54,6 +56,9 @@ target_link_libraries(main-cbe-gamal-system mdr my-lib m gmp nettle hogweed pbc)
 target_link_libraries(main-hybrid-reenc-system mdr my-lib m gmp nettle hogweed pbc)
 target_link_libraries(main-hybrid-reenc-system mdr my-lib m gmp nettle hogweed pbc)
 
+target_link_libraries(main-ibe-reenc-system mdr my-lib m gmp nettle hogweed pbc)
+target_link_libraries(main-ibe-reenc-system mdr my-lib m gmp nettle hogweed pbc)
+
 target_link_libraries(test-bb-ibe-system mdr my-lib m gmp nettle hogweed pbc)
 target_link_libraries(test-bb-ibe-system mdr my-lib m gmp nettle hogweed pbc)
 
@@ -62,3 +67,6 @@ target_link_libraries(test-cbe-gamal-system mdr my-lib m gmp nettle hogweed pbc)
 
 target_link_libraries(test-hybrid-reenc-system mdr my-lib m gmp nettle hogweed pbc)
 target_link_libraries(test-hybrid-reenc-system mdr my-lib m gmp nettle hogweed pbc)
+
+target_link_libraries(test-ibe-reenc-system mdr my-lib m gmp nettle hogweed pbc)
+target_link_libraries(test-ibe-reenc-system mdr my-lib m gmp nettle hogweed pbc)

@@ -2,6 +2,7 @@
 #include <assert.h>
 
 #include "lib-mesg.h"
+#include"lib-timing.h"
 #include "lib-shared.h"
 #include "lib-custom-types.h"
 #include "lib-hybrid-reenc-system.h"
