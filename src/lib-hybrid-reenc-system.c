@@ -1,22 +1,22 @@
 #include "lib-hybrid-reenc-system.h"
 
 void hybrid_reenc_clear(
-    hybrid_reenc_eID_t eID,
+    reenc_eID_t eID,
     hybrid_reenc_rkID_t rkID)
 {
     pmesg(msg_verbose, "START hybrid_reenc_clear ...");
-    clear_hybrid_reenc_eID_t(eID);
+    clear_reenc_eID_t(eID);
     clear_hybrid_reenc_rkID_t(rkID);
     pmesg(msg_verbose, "END hybrid_reenc_clear ...");
 }
 
 void hybrid_reenc_system_egen(
-    hybrid_reenc_eID_t eID,
+    reenc_eID_t eID,
     bb_ibe_skID_t skID,
     pairing_t pairing)
 {
     pmesg(msg_verbose, "START hybrid_reenc_system_egen ...");
-    init_hybrid_reenc_eID_t(eID, pairing);
+    init_reenc_eID_t(eID, pairing);
     element_set(eID->eID, skID->d1);
 
     if (precomputation)
@@ -29,7 +29,7 @@ void hybrid_reenc_system_egen(
 void hybrid_reenc_system_keygen_pro(
     hybrid_reenc_rkID_t rkID,
     cbe_gamal_sk_t sk,
-    hybrid_reenc_eID_t eID,
+    reenc_eID_t eID,
     hybrid_reenc_params_t params,
     pairing_t pairing)
 {

@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     cbe_gamal_sk_t sk;
     cbe_gamal_C_t C;
     // HYBRID-RE-ENC
-    hybrid_reenc_eID_t eID;
+    reenc_eID_t eID;
     hybrid_reenc_rkID_t rkID;
     element_t m_dec;
 

@@ -36,7 +36,11 @@ void bb_ibe_system_setup(
         element_pp_pow_zn(mk->mk, a, params->pp_g2);
     else
         element_pow_zn(mk->mk, params->g2, a);
+
+    element_set(mk->alpha, a);
+    
     pmesg_element(msg_verbose, "", mk->mk);
+    pmesg_element(msg_verbose, "", mk->alpha);
 
     element_clear(a);
     pmesg(msg_verbose, "END bb_ibe_system_setup ...");

@@ -2,8 +2,8 @@
 
 // defaultvalues
 bool compute_parameters = true;
-bool precomputation = true;
-bool pairing_pp = true;
+bool precomputation = false;
+bool pairing_pp = false;
 int sec_level = 90;
 pbc_pairing_type_t type = pbc_pairing_type_a;
 
@@ -40,11 +40,15 @@ void clear_shared_params_t(shared_params_t params)
 void init_bb_ibe_mk_t(bb_ibe_mk_t mk, pairing_t pairing)
 {
     element_init_G1(mk->mk, pairing);
+    element_init_Zr(mk->alpha, pairing);
 }
 void clear_bb_ibe_mk_t(bb_ibe_mk_t mk)
 {
     if (mk)
+    {
         element_clear(mk->mk);
+        element_clear(mk->alpha);
+    }
 }
 
 void init_bb_ibe_skID_t(bb_ibe_skID_t skID, pairing_t pairing)
@@ -157,11 +161,11 @@ void clear_cbe_gamal_C_t(cbe_gamal_C_t C)
     }
 }
 
-void init_hybrid_reenc_eID_t(hybrid_reenc_eID_t eID, pairing_t pairing)
+void init_reenc_eID_t(reenc_eID_t eID, pairing_t pairing)
 {
     element_init_G1(eID->eID, pairing);
 }
-void clear_hybrid_reenc_eID_t(hybrid_reenc_eID_t eID)
+void clear_reenc_eID_t(reenc_eID_t eID)
 {
     if (eID)
     {
@@ -190,4 +194,33 @@ void clear_hybrid_reenc_rkID_t(hybrid_reenc_rkID_t rkID)
         if (pairing_pp)
             pairing_pp_clear(rkID->pairing_pp_g_u_b);
     }
+}
+
+void init_ibe_reenc_rkID_t(ibe_reenc_rkID_t rkID, pairing_t pairing)
+{
+    element_init_Zr(rkID->ID, pairing);
+    element_init_Zr(rkID->ID1, pairing);
+    element_init_G1(rkID->g_u_a, pairing);
+}
+void clear_ibe_reenc_rkID_t(ibe_reenc_rkID_t rkID)
+{
+    if (rkID)
+    {
+        element_clear(rkID->ID);
+        element_clear(rkID->ID1);
+        element_clear(rkID->g_u_a);
+
+        if (pairing_pp)
+            pairing_pp_clear(rkID->pairing_pp_g_u_a);
+    }
+}
+
+void init_ibe_reenc_skR_t(ibe_reenc_skR_t skR, pairing_t pairing)
+{
+    element_init_Zr(skR->alpha, pairing);
+}
+void clear_ibe_reenc_skR_t(ibe_reenc_skR_t skR)
+{
+    if (skR)
+        element_clear(skR->alpha);
 }

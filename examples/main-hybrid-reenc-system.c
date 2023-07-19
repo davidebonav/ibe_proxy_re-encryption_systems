@@ -82,7 +82,7 @@ int main()
     // ******************************
 
     // TEST HYBRID
-    hybrid_reenc_eID_t eID;
+    reenc_eID_t eID;
     hybrid_reenc_rkID_t rkID;
 
     hybrid_reenc_system_egen(eID, skID, pairing);

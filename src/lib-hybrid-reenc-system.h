@@ -23,18 +23,18 @@ typedef shared_params_t hybrid_reenc_params_t; // alias
 
 // functions
 void hybrid_reenc_clear(
-    hybrid_reenc_eID_t eID,
+    reenc_eID_t eID,
     hybrid_reenc_rkID_t rkID);
 
 void hybrid_reenc_system_egen(
-    hybrid_reenc_eID_t eID,
+    reenc_eID_t eID,
     bb_ibe_skID_t skID,
     pairing_t pairing);
 
 void hybrid_reenc_system_keygen_pro(
     hybrid_reenc_rkID_t rkID,
     cbe_gamal_sk_t sk,
-    hybrid_reenc_eID_t eID,
+    reenc_eID_t eID,
     hybrid_reenc_params_t params,
     pairing_t pairing);
 

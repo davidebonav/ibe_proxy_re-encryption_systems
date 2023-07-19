@@ -38,6 +38,7 @@ void clear_shared_params_t(shared_params_t params);
 struct bb_ibe_mk_struct
 {
     element_t mk; // = g2^a
+    element_t alpha;
 };
 typedef struct bb_ibe_mk_struct *bb_ibe_mk_ptr;
 typedef struct bb_ibe_mk_struct bb_ibe_mk_t[1];
@@ -126,14 +127,14 @@ void clear_cbe_gamal_sk_t(cbe_gamal_sk_t sk);
 void clear_cbe_gamal_C_t(cbe_gamal_C_t C);
 
 // HYBRID-PROXY
-struct hybrid_reenc_eID_struct
+struct reenc_eID_struct
 {
     element_t eID;
     // precomputation
     element_pp_t pp_eID;
 };
-typedef struct hybrid_reenc_eID_struct *hybrid_reenc_eID_ptr;
-typedef struct hybrid_reenc_eID_struct hybrid_reenc_eID_t[1];
+typedef struct reenc_eID_struct *reenc_eID_ptr;
+typedef struct reenc_eID_struct reenc_eID_t[1];
 
 struct hybrid_reenc_rkID_struct
 {
@@ -146,8 +147,32 @@ struct hybrid_reenc_rkID_struct
 typedef struct hybrid_reenc_rkID_struct *hybrid_reenc_rkID_ptr;
 typedef struct hybrid_reenc_rkID_struct hybrid_reenc_rkID_t[1];
 
-void init_hybrid_reenc_eID_t(hybrid_reenc_eID_t eID, pairing_t pairing);
+void init_reenc_eID_t(reenc_eID_t eID, pairing_t pairing);
 void init_hybrid_reenc_rkID_t(hybrid_reenc_rkID_t rkID, pairing_t pairing);
-void clear_hybrid_reenc_eID_t(hybrid_reenc_eID_t eID);
+void clear_reenc_eID_t(reenc_eID_t eID);
 void clear_hybrid_reenc_rkID_t(hybrid_reenc_rkID_t rkID);
+
+struct ibe_reenc_rkID_struct
+{
+    element_t ID;
+    element_t ID1;
+    element_t g_u_a;
+
+    pairing_pp_t pairing_pp_g_u_a;
+};
+typedef struct ibe_reenc_rkID_struct *ibe_reenc_rkID_ptr;
+typedef struct ibe_reenc_rkID_struct ibe_reenc_rkID_t[1];
+
+struct ibe_reenc_skR_struct
+{
+    element_t alpha;
+};
+typedef struct ibe_reenc_skR_struct *ibe_reenc_skR_ptr;
+typedef struct ibe_reenc_skR_struct ibe_reenc_skR_t[1];
+
+void init_ibe_reenc_skR_t(ibe_reenc_skR_t skR, pairing_t pairing);
+void clear_ibe_reenc_skR_t(ibe_reenc_skR_t skR);
+void init_ibe_reenc_rkID_t(ibe_reenc_rkID_t rkID, pairing_t pairing);
+void clear_ibe_reenc_rkID_t(ibe_reenc_rkID_t rkID);
+
 #endif // CUSTOM_TYPES_H
